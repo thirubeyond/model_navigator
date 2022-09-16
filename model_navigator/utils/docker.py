@@ -36,7 +36,7 @@ class DockerContainer:
     def __init__(self, container_id: ContainerIdType):
         from docker import APIClient, from_env
 
-        self._docker_api_client = APIClient()
+        self._docker_api_client = APIClient(base_url="tcp://127.0.0.1:2375")
         self._docker_client = from_env()
         containers = self._docker_client.containers.list(filters={"id": container_id})
         if not containers:
@@ -117,7 +117,7 @@ class DockerImage:
 
         self._image_name = image_name
         self._docker_client = from_env()
-        self._docker_api_client = APIClient()
+        self._docker_api_client = APIClient(base_url="tcp://127.0.0.1:2375")
 
     def run_container(
         self,
